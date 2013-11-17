@@ -1030,6 +1030,7 @@ Dima
 For Symfony 2.3.2 :
 
 .. code-block:: php
+
     // src/Blogger/BlogBundle/Controller/PageController.php
     public function contactAction()
     {

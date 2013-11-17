@@ -838,12 +838,19 @@ For those of you who are using annotation, instead of yml, for routing, you may 
 
 Simply to do it, change your @Route to have a name, like so:
 
-/**
 
-* @Route('some/path/here', name="_about")
+.. code-block:: php
 
-*/
+    /**
+
+    * @Route('some/path/here', name="_about")
+
+    */
 
 Now when using path you reference the name, like so:
 
-{{ path('_about') }}
+.. code-block:: html
+
+    {{ path('_about') }}
+
+

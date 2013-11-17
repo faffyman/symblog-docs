@@ -421,6 +421,7 @@ via ``comments``. To create this inverse, we need to update the ``Blog`` entity
 so Doctrine 2 knows that a blog can contain many comments. Update the ``Blog``
 entity located at ``src/Blogger/BlogBundle/Entity/Blog.php`` to add this mapping.
 
+
 .. code-block:: php
 
     <?php

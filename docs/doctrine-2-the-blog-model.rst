@@ -873,6 +873,7 @@ if you use --purge-with-truncate option, it will reset the auto-increment counte
 data is deleted. This will ensure the blog id of 1 will still work. Don't know if it works for Sqlite3, but is should.
 
 .. code-block:: bash
+
     php app/console doctrine:fixtures:load --purge-with-truncate
 
 
