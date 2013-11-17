@@ -313,7 +313,7 @@ the ``sidebar`` action of the ``Page`` controller.
     {# .. #}
 
     {% block sidebar %}
-        {% render "BloggerBlogBundle:Page:sidebar" %}
+        {% render controller("BloggerBlogBundle:Page:sidebar") %}
     {% endblock %}
 
 Finally let's add the CSS for the tag cloud. Add a new stylesheet located at
@@ -1432,3 +1432,41 @@ and functional testing using PHPUnit. We will see how Symfony2 comes complete
 with a number of classes to assist in writing functional tests that simulate
 web requests, allow us to populate forms and click links and then inspect the
 returned response.
+
+
+
+Comments
+---------
+
+Binary
+-------
+It's better to query only COUNT(*) when it comes to count ArrayCollection elements instead of retrieving every element.
+If you add meta ' fetch="EXTRA_LAZY" ' to comments of blog entity you can call it in twig this way: blog.comments.count() instead of blog.comments|length.
+
+Docs: http://docs.doctrine-project.org/en/2.0.x/tutorials/extra-lazy-associations.html
+
+
+dar hamid
+----------
+I am new to symfony and found this tutorial awsome. However i am getting following error. I am not able to resolve it.
+
+The filter "created_ago" does not exist in "BloggerBlogBundle:Page:sidebar.html.twig" at line 14
+500 Internal Server Error - Twig_Error_Syntax
+
+Nat Naydenova ->  dar hamid
+............................
+I had the same problem.
+Try moving this section:
+
+.. code-block:: php
+
+    services:
+    blogger_blog.twig.extension:
+    class: Blogger\BlogBundle\Twig\Extensions\BloggerBlogExtension
+    tags:
+        - { name: twig.extension }
+
+in /app/config/config.yml instead of /Blogger/BlogBundle/Resources/config/services.yml
+It worked for me.
+
+

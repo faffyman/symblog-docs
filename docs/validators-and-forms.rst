@@ -288,7 +288,7 @@ use them. Replace the content of the contact action located at
 
         $request = $this->getRequest();
         if ($request->getMethod() == 'POST') {
-            $form->bindRequest($request);
+            $form->bind($request);
 
             if ($form->isValid()) {
                 // Perform some action, such as sending an email
@@ -311,7 +311,7 @@ the data of a contact enquiry. Next we create the actual form. We specify the
 
 As this controller action will deal with displaying and processing the submitted form, we
 need to check the HTTP method. Submitted forms are usually sent via ``POST``, and our
-form will be no exception. If the request method is ``POST``, a call to ``bindRequest``
+form will be no exception. If the request method is ``POST``, a call to ``bind($request)``
 will transform the submitted data back to the members of our ``$enquiry`` object. At
 this point the ``$enquiry`` object now holds a representation of what the user submitted.
 
@@ -768,9 +768,9 @@ Update the content of the template with the following.
         <h1>Contact symblog</h1>
     </header>
 
-    {% if app.session.hasFlash('blogger-notice') %}
+    {% for flashMessage in app.session.flashbag.get('blogger-notice') %}
         <div class="blogger-notice">
-            {{ app.session.flash('blogger-notice') }}
+            {{ flashMessage }}
         </div>
     {% endif %}
 
@@ -955,3 +955,92 @@ setting custom configuration settings that can be read into our application.
 Next we will look at a big part of this tutorial, The Model. We will introduce
 Doctrine 2 and use it to define the blog Model. We will also build the show blog
 page and explore the concept of Data fixtures .
+
+
+
+Comments
+---------
+
+Marc Carlucci
+~~~~~~~~~~~~~~
+Nice tutorial ! Thanks for your work. Using the current version of symfony EnquiryType.php should be
+
+.. code-block:: php
+    ...
+    use Symfony\Component\Form\FormBuilderInterface;
+
+    class EnquiryType extends AbstractType
+    {
+        public function buildForm(FormBuilderInterface $builder, array $options)
+        {
+    ...
+
+
+Antonio Spinelli
+~~~~~~~~~~~~~~~~~
+Hey Man!!! This is very useful to learn Symfony!!
+
+I get exception with this code and I think its need a little update:
+
+.. code-block:: html
+    {% if app.session.hasFlash('blogger-notice') %}
+    <div class="blogger-notice">
+    {{ app.session.flash('blogger-notice') }}
+    </div>
+    {% endif %}
+
+to:
+
+.. code-block:: html
+    {% for flashMessage in app.session.flashbag.get('blogger-notice') %}
+    {{ flashMessage }}
+    {% endfor %}
+
+
+
+Paweł Dobrzański  -> Antonio Spinelli
+.........................................
+And need to make change in PageController / contactAction to:
+.. code-block:: php
+    $this->get('session')->getFlashBag()->add(
+        'blogger-notice',
+        'Your contact enquiry was successfully sent. Thank you!'
+    );
+
+Guest
+~~~~~~
+Just for someone who got the Maxlength and minLength error message.
+
+For Symfony 2.3
+
+The MinLength and MaxLength constraints were deprecated and will be removed in Symfony 2.3.
+You should use the new constraint `Length` instead.
+
+.. code-block:: php
+    use Symfony\Component\Validator\Constraints\Length;
+
+    $metadata->addPropertyConstraint('subject', new Length(array('max'=> 50)));
+    $metadata->addPropertyConstraint('body', new Length(array('min'=> 50)));
+
+
+See an example : http://symfony.com/doc/2.1/reference/constraints/Length.html
+
+Dima
+~~~~~
+For Symfony 2.3.2 :
+
+.. code-block:: php
+    // src/Blogger/BlogBundle/Controller/PageController.php
+    public function contactAction()
+    {
+    $enquiry = new Enquiry();
+    $form = $this->createForm(new EnquiryType(), $enquiry);
+
+    $request = $this->getRequest();
+    if ($request->getMethod() == 'POST') {
+
+      // $form->bindRequest($request);
+      // Info: Deprecated since version 2.1, to be removed in 2.3. Use {@link FormConfigInterface::bind()} instead.
+      $form->bind($request); // correctly
+
+2.  // src/Blogger/BlogBundle/Controller/PageController.php

@@ -812,3 +812,38 @@ behind a Symfony2 application, including Routing and the Twig templating engine.
 Next we will look at creating the Contact page. This page is slightly more involved than the About page
 as it allows users to interact with a web form to send us enquiries. The next chapter will introduce
 concpets including Validators and Forms.
+
+
+Comments
+--------
+
+Nick • 5 months ago
+~~~~~~~~~~~~~~~~~~~~~
+With symfony 2.2.1 I had to make this change to get the layout to extend base:
+
+In layout.html.twig line 2:
+
+old: {% extends '::base.html.twig' %}
+
+new: {% extends 'BloggerBlogBundle::base.html.twig' %}
+
+Jarek Jakubowski  Nick • 4 months ago
+.......................................
+both ways work, it depends where you placed your base template. The 'old' one is for app/Resources/views, use the 'new' one if your base.html.twig lays in your bundle directory.
+
+
+Scott Flack • 8 months ago −
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For those of you who are using annotation, instead of yml, for routing, you may come across trouble working out what to give to the path() function in twig.
+
+Simply to do it, change your @Route to have a name, like so:
+
+/**
+
+* @Route('some/path/here', name="_about")
+
+*/
+
+Now when using path you reference the name, like so:
+
+{{ path('_about') }}

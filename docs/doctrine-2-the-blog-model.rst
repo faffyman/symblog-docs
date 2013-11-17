@@ -496,12 +496,12 @@ The View
 Now we have built the ``show`` action for the ``Blog`` controller we can focus
 on displaying the ``Blog`` entity. As specified in the ``show`` action the
 template ``BloggerBlogBundle:Blog:show.html.twig`` will be rendered. Let's create
-this template located at ``src/Blogger/BlogBundle/Resouces/views/Blog/show.html.twig``
+this template located at ``src/Blogger/BlogBundle/Resources/views/Blog/show.html.twig``
 and paste in the following.
 
 .. code-block:: html
 
-    {# src/Blogger/BlogBundle/Resouces/views/Blog/show.html.twig #}
+    {# src/Blogger/BlogBundle/Resources/views/Blog/show.html.twig #}
     {% extends 'BloggerBlogBundle::layout.html.twig' %}
 
     {% block title %}{{ blog.title }}{% endblock %}
@@ -531,7 +531,7 @@ CSS
 ...
 
 In order to ensure the blog show page looks beautiful, we need to add some styling.
-Update the stylesheet located at ``src/Blogger/BlogBundle/Resouces/public/css/blog.css``
+Update the stylesheet located at ``src/Blogger/BlogBundle/Resources/public/css/blog.css``
 with the following.
 
 .. code-block:: css
@@ -859,3 +859,20 @@ Next we will look at extending the model further by adding the comment entity.
 We will start to construct the homepage and create a custom Repository to do this.
 We will also introduce the concept of Doctrine Migrations and how forms
 interact with Doctrine 2 to allow comments to be posted for a blog.
+
+
+Comments
+---------
+
+re-running the fixtures task results in blog entries 6 to 10, thus entry 1 to 5 are not reachable anymore.
+If you try to display /web/app_dev.php/1, it will not be found.
+Use: /web/app_dev.php/6 instead (or delete the db file and recreated it).
+
+
+if you use --purge-with-truncate option, it will reset the auto-increment counter in your mysql database table when the
+data is deleted. This will ensure the blog id of 1 will still work. Don't know if it works for Sqlite3, but is should.
+
+.. code-block:: bash
+    php app/console doctrine:fixtures:load --purge-with-truncate
+
+

@@ -522,7 +522,7 @@ Now let's register the bundle in the kernel located at ``app/AppKernel.php``.
     {
         $bundles = array(
             // ...
-            new Symfony\Bundle\DoctrineMigrationsBundle\DoctrineMigrationsBundle(),
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             // ...
         );
         // ...
@@ -1106,7 +1106,8 @@ paste in the following.
             $comment->setBlog($blog);
             $request = $this->getRequest();
             $form    = $this->createForm(new CommentType(), $comment);
-            $form->bindRequest($request);
+            // $form->bind($request); //will be deprected in SYmfony 2.3
+            $form->submit($request)
 
             if ($form->isValid()) {
                 // TODO: Persist the comment entity
@@ -1272,7 +1273,8 @@ in the process of embedding the ``BloggerBlogBundle:Comment:create`` controller.
 
 .. code-block:: html
 
-    {% render 'BloggerBlogBundle:Comment:create' with { 'blog_id': blog.id } %}
+    {% render controller('BloggerBlogBundle:Comment:new',{ 'blog_id': blog.id }) %}
+
 
 If we look at the exception message further it gives us some more information
 about the nature of why the exception was caused.

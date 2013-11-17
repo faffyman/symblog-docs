@@ -1240,3 +1240,49 @@ class to check the Response from these requests.
 Next we will look at the Symfony2 security component, and more specifically how to use it
 for user management. We will also integrate the FOSUserBundle ready for us to work on the
 symblog admin section.
+
+
+
+Comments
+---------
+
+OlivierCuyp
+~~~~~~~~~~~
+Hi, love tutorial it is great, I'm learning so much.
+I had just a little issue with the form 'blogger_blogbundle_enquirytype', PHPUnit doesn't recognize it.
+If I change the token to 'contact' (the name we set up previously) it works like charm.
+Hope it helps.
+
+Thanks again.
+
+Wiert Dijkkamp -> OlivierCuyp
+..............................
+Or even better replace the "return 'contact';" to the more unique "return 'blogger_blogbundle_enquirytype';"
+in the getName() method of the EnquiryType class.
+
+
+pirmin
+~~~~~~~
+in case you want to start with phpunit with the suggested "phpunit -c app" after installing it via composer, but all you end up with is a PHP fatal error (mine was Cannot redeclare class File_Iterator_Factory in ....), try using "vendor/bin/phpunit -c app" (from your project's root of course).
+
+very nice tutorial btw! i really appreciate the comprehensive approach! thank you!
+
+
+
+ladenise
+~~~~~~~~~~
+@Harrie: Modify BloggerBlogExtension::createdAgo(\DateTime $dateTime) by replacing:
+throw new \Exception("createdAgo is unable to handle dates in the future");
+by:
+throw new \BadMethodCallException("createdAgo is unable to handle dates in the future");
+
+And modify your test by replacing:
+$this->setExpectedException('\Exception');
+by:
+$this->setExpectedException('\BadMethodCallException');
+
+
+Jonathan Ingram -> ladenise
+..............................
+I believe it is InvalidArgumentException :)
+the method is fine, it's the argument that is invalid.
